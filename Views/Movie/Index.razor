@@ -1,0 +1,55 @@
+﻿@using DotNetAPI.Models
+
+@code {
+    private List<Movie> movies = new List<Movie>();
+
+  
+        // Assuming you have a service or API call to fetch movies.
+    protected override async Task OnInitializedAsync()
+    {
+        // Fetch the movies here
+        // For demonstration, I'll mock some data:
+        movies = new List<Movie>
+        {
+            new Movie { Id = 1, Title = "Inception", Director = "Christopher Nolan", Genre = "Sci-fi", ReleaseYear = 2010 },
+            // ... Add other movies here for demo
+        };
+    }
+    private async Task AddMovie(Movie movie)
+    {
+        // Make an API call to add the movie
+        // Then, add the movie to the movies list or fetch the updated list from the API
+        movies.Add(movie);
+    }
+
+    private async Task DeleteMovie(int id)
+    {
+        // Make an API call to delete the movie by id
+        // Then, remove the movie from the movies list or fetch the updated list from the API
+        var movieToDelete = movies.FirstOrDefault(m => m.Id == id);
+        if (movieToDelete != null)
+        {
+            movies.Remove(movieToDelete);
+        }
+    }
+    private Movie newMovie = new Movie();
+
+    private async Task HandleSubmit()
+    {
+        await AddMovie(newMovie);
+        newMovie = new Movie();  // Reset the form model
+    }
+}
+
+<form @onsubmit="HandleSubmit">
+    <label for="title">Title:</label>
+    <input type="text" @bind="newMovie.Title" required>
+
+    <!-- ... other fields ... -->
+
+    <input type="submit" value="Add Movie">
+</form>
+
+
+
+
